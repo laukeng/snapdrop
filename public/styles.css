@@ -755,3 +755,16 @@ x-dialog x-paper {
     }
 }
 
+#warning{
+	position: fixed;
+	top: 50px;
+	left: 0px;
+	right: 0px;
+	margin: 0px auto;
+    padding: 6px;
+    background-color: orange;
+    color:royalblue;
+    font-size: 14px;
+    display: none;
+}
+
