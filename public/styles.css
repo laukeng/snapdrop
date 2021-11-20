@@ -718,9 +718,10 @@ x-dialog x-paper {
 }
 /* Image Preview */
 #img-preview{
-    max-height: 50vh;
-    margin: auto;
+    max-width: 100%;
+    max-height: 60vh;
     display: block;
+    margin: auto;
 }
 
 
