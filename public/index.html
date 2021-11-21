@@ -69,14 +69,14 @@
         <div>若发送无反应，请双方各刷新一下此页面</div>
     </x-instructions>
     <!-- Footer -->
-    <footer class="column">
-        <a href="#" id="showJoin" title="点击输入接头暗号">
+    <footer id="showJoin" class="column">
+        <!-- <a href="#" id="showJoin" title="点击输入接头暗号"> -->
             <svg class="icon logo">
                 <use xlink:href="#wifi-tethering" />
             </svg>
-        </a>
+        <!-- </a> -->
         <div id="displayName" placeholder="用最简单的方法分享文件"></div>
-        <div class="font-body2">点此图标输入相同口令即可公网传输</div>
+        <div class="font-body2">不在同一局域网的设备输入相同暗号也能互相发现</div>
     </footer>
     <!-- Join Room Dialog -->
     <x-dialog id="joinRoomDialog">
