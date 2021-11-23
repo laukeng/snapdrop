@@ -305,7 +305,6 @@ class ReceiveDialog extends Dialog {
         this._dequeueFile();
     }
 
-
     _autoDownload(){
         return !this.$el.querySelector('#autoDownload').checked
     }
@@ -321,24 +320,6 @@ class JoinRoomDialog extends Dialog {
         const btnShow = document.getElementById('showJoin');
         btnShow.addEventListener('click', _ => this.show());
         button.addEventListener('submit', e => this._join(e));
-    }
-
-    _onRecipient() {
-        this._handleShareTargetText();
-        this.show();
-
-        const range = document.createRange();
-        const sel = window.getSelection();
-
-        range.selectNodeContents(this.$text);
-        sel.removeAllRanges();
-        sel.addRange(range);
-    }
-
-    _handleShareTargetText() {
-        if (!window.shareTargetText) return;
-        this.$text.textContent = window.shareTargetText;
-        window.shareTargetText = '';
     }
 
     _join(e) {
