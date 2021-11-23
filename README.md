@@ -13,5 +13,5 @@ Make sure to check your ip address using your OS command.
 
 ## How to use
 By default, it is used inside the LAN.\
-Users who are not in the same LAN can establish a connection by entering the same room address.\
-Enter a blank room address to return to LAN mode.
+Users who are not in the same LAN can establish a connection by entering the same room name.\
+Enter a blank room name to return to LAN mode.
