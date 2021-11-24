@@ -112,6 +112,7 @@ h3 {
     font-weight: 400;
     line-height: 24px;
     overflow: hidden;
+    word-wrap: break-word;
 }
 
 .font-body1,
