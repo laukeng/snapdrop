@@ -1,4 +1,6 @@
 # Logs
+log/
+logs/
 logs
 *.log
 npm-debug.log*
@@ -9,6 +11,8 @@ lerna-debug.log*
 # others
 package-lock.json
 test.js
+*.bat
+web.config
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
