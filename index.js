@@ -1,14 +1,14 @@
 var process = require('process')
 // Handle SIGINT
 process.on('SIGINT', () => {
-  console.info("SIGINT Received, exiting...")
-  process.exit(0)
+    console.info("SIGINT Received, exiting...")
+    process.exit(0)
 })
 
 // Handle SIGTERM
 process.on('SIGTERM', () => {
-  console.info("SIGTERM Received, exiting...")
-  process.exit(0)
+    console.info("SIGTERM Received, exiting...")
+    process.exit(0)
 })
 
 // Handle APP ERRORS
@@ -28,24 +28,39 @@ process.on('unhandledRejection', (reason, promise) => {
 const express = require('express');
 const http = require('http');
 var path = require("path");
+var fs = require("fs");
 const app = express();
 const port = process.env.PORT || 3000;
 const publicRun = process.argv[2];
 
-app.use(express.static('public'));
-
 app.get('*', (req, res) => {
-    if (/^\/.*\/.*$/.test(req.url)) {
-        var rUrl = req.url.match(/^(\/.*)\/.*$/)[1];
-        res.redirect(rUrl);
-    }else{
-        res.sendFile(path.join(__dirname,'public', '/index.html'));
-    }
+    if (/^\/.*\/$/.test(req.url) || req.url.indexOf('//') == 0) { //如果以斜杆结尾或者以两个斜杆开头
+        req.url = req.url.match(/^\/[^\/]*/)[0]; //截取第一个二个斜杠之间的字符串
+        res.redirect(req.url);
+        return;
+    } //如果不以斜杠结尾，则判断是文件还是文件夹
+    const file = path.join(__dirname, 'public', req.url);
+    fs.stat(file, function (err, stat) {
+        if (err) { //既不是文件也不是文件夹
+            if (req.url.lastIndexOf('/') > 0) { //如果字符串中包含了两个或以上的斜杆
+                req.url = req.url.match(/^\/[^\/]*/)[0]; //截取第一个二个斜杠之间的字符串
+                res.redirect(req.url);
+            } else {
+                res.sendFile(path.join(__dirname, 'public', '/index.html'));
+            }
+            return;
+        }
+        if (stat.isFile()) { //是文件
+            res.sendFile(file);
+        } else { //是文件夹(比如/scripts,/images)
+            res.sendFile(path.join(__dirname, 'public', '/index.html'));
+        }
+    });
 });
 
 const server = http.createServer(app);
 (!publicRun == "public") ? server.listen(port) : server.listen(port, '0.0.0.0');
-console.log(new Date().toISOString(),' Snapdrop is running on port', port);
+console.log(new Date().toISOString(), ' Snapdrop is running on port', port);
 
 const parser = require('ua-parser-js');
 const { uniqueNamesGenerator, animals, colors } = require('unique-names-generator');
@@ -65,7 +80,7 @@ class SnapdropServer {
             this._joinRoom(peer);
             peer.socket.on('message', message => this._onMessage(peer, message));
             this._keepAlive(peer);
-    
+
             // send displayName
             this._send(peer, {
                 type: 'display-name',
@@ -209,13 +224,13 @@ class Peer {
         // for keepalive
         this.timerId = 0;
         this.lastBeat = Date.now();
-        console.log(new Date().toISOString(),this.ip,this.name.deviceName,'RTC:',this.rtcSupported);
+        console.log(new Date().toISOString(), this.ip, this.name.deviceName, 'RTC:', this.rtcSupported);
     }
 
     _setIP(request) {
         if (/^\/[^\/]+/.test(request.url)) {
             this.ip = decodeURIComponent(request.url.match(/\/([^\/]+)/)[1]);
-        }else{
+        } else {
             if (request.headers['x-forwarded-for']) {
                 //console.log('x-forwarded-for:',request.headers['x-forwarded-for']);
                 var ip = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/;
@@ -249,7 +264,7 @@ class Peer {
         let ua = parser(req.headers['user-agent']);
 
         let deviceName = '';
-        
+
         if (ua.os && ua.os.name) {
             deviceName = ua.os.name.replace('Mac OS', 'Mac') + ' ';
         }
@@ -263,7 +278,7 @@ class Peer {
             deviceName += ua.browser.name;
         }
 
-        if(!deviceName)
+        if (!deviceName)
             deviceName = 'Unknown Device';
 
         const displayName = uniqueNamesGenerator({
@@ -320,15 +335,15 @@ class Peer {
 }
 
 Object.defineProperty(String.prototype, 'hashCode', {
-  value: function() {
-    var hash = 0, i, chr;
-    for (i = 0; i < this.length; i++) {
-      chr   = this.charCodeAt(i);
-      hash  = ((hash << 5) - hash) + chr;
-      hash |= 0; // Convert to 32bit integer
+    value: function () {
+        var hash = 0, i, chr;
+        for (i = 0; i < this.length; i++) {
+            chr = this.charCodeAt(i);
+            hash = ((hash << 5) - hash) + chr;
+            hash |= 0; // Convert to 32bit integer
+        }
+        return hash;
     }
-    return hash;
-  }
 });
 
 new SnapdropServer();
