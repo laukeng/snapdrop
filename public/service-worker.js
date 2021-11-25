@@ -8,6 +8,7 @@ var urlsToCache = [
   'scripts/clipboard.js',
   'scripts/theme.js',
   'scripts/checkbrowser.js',
+  'scripts/qrcode.js',
   'sounds/blop.mp3',
   'images/favicon-96x96.png'
 ];
