@@ -54,7 +54,6 @@ const server = http.createServer(app);
 console.log(new Date().toISOString(), ' Snapdrop is running on port', port);
 
 const parser = require('ua-parser-js');
-const { uniqueNamesGenerator, animals, colors } = require('unique-names-generator');
 
 class SnapdropServer {
 
@@ -259,26 +258,15 @@ class Peer {
         if (ua.os && ua.os.name) {
             deviceName = ua.os.name.replace('Mac OS', 'Mac') + ' ';
         }
-
-        // if (ua.device.model) {
-        //     deviceName += ua.device.model;
-        // } else {
-        //     deviceName += ua.browser.name;
-        // }        
+       
         if (ua.browser.name) {
             deviceName += ua.browser.name;
         }
 
-        if (!deviceName)
-            deviceName = 'Unknown Device';
+        if (!deviceName) deviceName = 'Unknown Device';
 
-        const displayName = uniqueNamesGenerator({
-            length: 2,
-            separator: ' ',
-            dictionaries: [colors, animals],
-            style: 'capital',
-            seed: this.id.hashCode()
-        })
+        var nameGenerator = require('./nameGenerator.js');
+        const displayName = nameGenerator.getName(this.id);
 
         this.name = {
             model: ua.device.model,
@@ -324,17 +312,5 @@ class Peer {
         return uuid;
     };
 }
-
-Object.defineProperty(String.prototype, 'hashCode', {
-    value: function () {
-        var hash = 0, i, chr;
-        for (i = 0; i < this.length; i++) {
-            chr = this.charCodeAt(i);
-            hash = ((hash << 5) - hash) + chr;
-            hash |= 0; // Convert to 32bit integer
-        }
-        return hash;
-    }
-});
 
 new SnapdropServer();
