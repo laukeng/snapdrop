@@ -34,25 +34,16 @@ const port = process.env.PORT || 3000;
 const publicRun = process.argv[2];
 
 app.get('*', (req, res) => {
-    if (/^\/.*\/$/.test(req.url) || req.url.indexOf('//') == 0) { //如果以斜杆结尾或者以两个斜杆开头
-        req.url = req.url.match(/^\/[^\/]*/)[0]; //截取第一个二个斜杠之间的字符串
-        res.redirect(req.url);
-        return;
-    } //如果不以斜杠结尾，则判断是文件还是文件夹
     const file = path.join(__dirname, 'public', req.url);
     fs.stat(file, function (err, stat) {
-        if (err) { //既不是文件也不是文件夹
-            if (req.url.lastIndexOf('/') > 0) { //如果字符串中包含了两个或以上的斜杆
-                req.url = req.url.match(/^\/[^\/]*/)[0]; //截取第一个二个斜杠之间的字符串
-                res.redirect(req.url);
-            } else {
-                res.sendFile(path.join(__dirname, 'public', '/index.html'));
-            }
+        if (!err && stat.isFile()) { //是文件
+            res.sendFile(file);
             return;
         }
-        if (stat.isFile()) { //是文件
-            res.sendFile(file);
-        } else { //是文件夹(比如/scripts,/images)
+        if (req.url.lastIndexOf('/') > 0) { //如果字符串中包含了两个或以上的斜杆
+            req.url = req.url.match(/^\/[^\/]*/)[0]; //截取第一个二个斜杠之间的字符串
+            res.redirect(req.url);
+        } else {
             res.sendFile(path.join(__dirname, 'public', '/index.html'));
         }
     });
