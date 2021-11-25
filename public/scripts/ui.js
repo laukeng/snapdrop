@@ -264,11 +264,11 @@ class ReceiveDialog extends Dialog {
         $a.href = url;
         $a.download = file.name;
 
-        if(this._autoDownload()){
+        if (this._autoDownload()) {
             $a.click()
             return
         }
-        if(file.mime.split('/')[0] === 'image'){
+        if (file.mime.split('/')[0] === 'image') {
             console.log('the file is image');
             this.$el.querySelector('.preview').style.visibility = 'inherit';
             this.$el.querySelector("#img-preview").src = url;
@@ -305,7 +305,7 @@ class ReceiveDialog extends Dialog {
         this._dequeueFile();
     }
 
-    _autoDownload(){
+    _autoDownload() {
         return !this.$el.querySelector('#autoDownload').checked
     }
 }
@@ -314,19 +314,25 @@ class ReceiveDialog extends Dialog {
 class JoinRoomDialog extends Dialog {
     constructor() {
         super('joinRoomDialog');
+        this.qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 240,
+            height: 240
+        });
         this.$text = this.$el.querySelector('#roomInput');
-        this.$text.value = decodeURIComponent(location.pathname.replace(/\//g,''));
-        const button = this.$el.querySelector('form');
-        const btnShow = document.getElementById('showJoin');
-        btnShow.addEventListener('click', _ => this.show());
-        button.addEventListener('submit', e => this._join(e));
+        this.$text.value = decodeURIComponent(location.pathname.replace(/\//g, ''));
+        this.$text.addEventListener('input', _ => this._makeCode());
+        this._makeCode();
+        this.$el.querySelector('form').addEventListener('submit', e => this._join(e));
+        document.getElementById('showJoin').addEventListener('click', _ => this.show());
     }
 
     _join(e) {
-        this.$text.value = encodeURIComponent(this.$text.value);//.replace(/\//g,'')
-        var roomUrl = location.protocol + '//' + location.host + '/' + this.$text.value;
         e.preventDefault();
-        window.location.href = roomUrl;
+        window.location.href = location.protocol + '//' + location.host + '/' + encodeURIComponent(this.$text.value);
+    }
+
+    _makeCode() {
+        this.qrcode.makeCode(location.protocol + '//' + location.host + '/' + encodeURIComponent(this.$text.value));
     }
 }
 
@@ -527,7 +533,7 @@ class WebShareTargetUI {
         let shareTargetText = title ? title : '';
         shareTargetText += text ? shareTargetText ? ' ' + text : text : '';
 
-        if(url) shareTargetText = url; // We share only the Link - no text. Because link-only text becomes clickable.
+        if (url) shareTargetText = url; // We share only the Link - no text. Because link-only text becomes clickable.
 
         if (!shareTargetText) return;
         window.shareTargetText = shareTargetText;
@@ -628,13 +634,13 @@ Events.on('load', () => {
 
     function animate() {
         if (loading || step % dw < dw - 5) {
-            requestAnimationFrame(function() {
+            requestAnimationFrame(function () {
                 drawCircles();
                 animate();
             });
         }
     }
-    window.animateBackground = function(l) {
+    window.animateBackground = function (l) {
         loading = l;
         animate();
     };

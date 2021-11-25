@@ -76,14 +76,15 @@
             </svg>
         <!-- </a> -->
         <div id="displayName" placeholder="用最简单的方法分享文件"></div>
-        <div class="font-body2">不在同一局域网的设备输入相同暗号也能互相发现</div>
+        <div class="font-body2">不在同一内网的设备可通过输入相同暗号互相发现</div>
     </footer>
     <!-- Join Room Dialog -->
     <x-dialog id="joinRoomDialog">
         <form action="#">
             <x-background class="full center">
                 <x-paper shadow="2">
-                    <h3>接头暗号（空白则扫描局域网）</h3>
+                    <div id="qrcode" style="width:240px; height:240px; margin: 20px auto;;"></div>
+                    <h3>接头暗号（空白则返回内网模式）</h3>
                     <input type="text" id="roomInput" class="textarea" style="width:100%" autocomplete="off" autofocus contenteditable>
                     <div class="row-reverse">
                         <button class="button" type="submit" close>确认</button>
@@ -246,7 +247,7 @@
     <script src="scripts/theme.js" async></script>
     <script src="scripts/clipboard.js" async></script>
     <script src="scripts/checkbrowser.js"></script>
-
+    <script src="scripts/qrcode.js"></script>
     <!-- Sounds -->
     <audio id="blop" autobuffer="true">
         <source src="/sounds/blop.mp3" type="audio/mpeg">
