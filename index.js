@@ -266,7 +266,7 @@ class Peer {
         if (!deviceName) deviceName = 'Unknown Device';
 
         var nameGenerator = require('./nameGenerator.js');
-        const displayName = nameGenerator.getName(this.id);
+        const displayName = nameGenerator.getName(this.id + this.ip);
 
         this.name = {
             model: ua.device.model,
