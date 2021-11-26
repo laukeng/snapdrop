@@ -31,15 +31,15 @@ function getName(seed) {
         '元', '郭', '顾', '孟', '平', '黄', '熊', '穆', '萧', '尹'
     );
     var midNames = new Array(
-        '大', '二', '三', '四', '五', '六'
+        '大', '二', '三', '四', '五', '六', '七'
     );
     var givenNames = new Array(
-        '郎', '娘', '哥', '姐'
+        '爷', '郎', '娘', '哥', '姐', '娃', '妹'
     );
     Math.seed = Math.abs(seed.hashCode());
     var familyName = familyNames[Math.seededRandom(100, 0)];
-    var midName = midNames[Math.seededRandom(6, 0)];
-    var givenName = givenNames[Math.seededRandom(4, 0)];
+    var midName = midNames[Math.seededRandom(7, 0)];
+    var givenName = givenNames[Math.seededRandom(7, 0)];
     return familyName + midName + givenName;
 }
 
