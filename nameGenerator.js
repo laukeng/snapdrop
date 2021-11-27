@@ -4,7 +4,8 @@ String.prototype.hashCode = function () {
     for (i = 0; i < this.length; i++) {
         chr = this.charCodeAt(i);
         hash = ((hash << 5) - hash) + chr;
-        hash |= 0;
+        //hash |= 0; //转换为32位整数
+        hash &= 0x7FFFFFFF; //转换为正整数
     }
     return hash;
 };
@@ -36,7 +37,7 @@ function getName(seed) {
     var givenNames = new Array(
         '爷', '郎', '娘', '哥', '姐', '娃', '妹', ''
     );
-    Math.seed = Math.abs(seed.hashCode());
+    Math.seed = seed.hashCode();
     var familyName = familyNames[Math.seededRandom(100, 0)];
     var midName = midNames[Math.seededRandom(8, 0)];
     var givenName = givenNames[Math.seededRandom(8, 0)];

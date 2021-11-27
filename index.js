@@ -85,7 +85,7 @@ class SnapdropServer {
     _onHeaders(headers, response) {
         if (response.headers.cookie && response.headers.cookie.indexOf('peerid=') > -1) return;
         response.peerId = Peer.uuid();
-        headers.push('Set-Cookie: peerid=' + response.peerId + "; SameSite=Strict; Secure");
+        headers.push('Set-Cookie: peerid=' + response.peerId + "; SameSite=Strict; Max-Age=-1; Secure");
     }
 
     _onMessage(sender, message) {
@@ -168,7 +168,6 @@ class SnapdropServer {
     }
 
     _send(peer, message) {
-        //console.log('sendto:',peer.name.displayName,' msg type:',message.type);
         if (!peer) return;
         if (this._wss.readyState !== this._wss.OPEN) return;
         message = JSON.stringify(message);
@@ -266,7 +265,7 @@ class Peer {
         if (!deviceName) deviceName = 'Unknown Device';
 
         var nameGenerator = require('./nameGenerator.js');
-        const displayName = nameGenerator.getName(this.id + this.ip);
+        const displayName = nameGenerator.getName(this.id);
 
         this.name = {
             model: ua.device.model,
