@@ -85,7 +85,7 @@ class SnapdropServer {
     _onHeaders(headers, response) {
         if (response.headers.cookie && response.headers.cookie.indexOf('peerid=') > -1) return;
         response.peerId = Peer.uuid();
-        headers.push('Set-Cookie: peerid=' + response.peerId + "; SameSite=Strict; Max-Age=-1; Secure");
+        headers.push('Set-Cookie: peerid=' + response.peerId + "; SameSite=Strict; Secure");
     }
 
     _onMessage(sender, message) {
