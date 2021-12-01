@@ -17,9 +17,9 @@ Events.on('display-name', e => {
 class PeersUI {
 
     constructor() {
-        Events.on('peer-joined', e => this._onPeerJoined(e.detail));
+        Events.on('peer-opened', e => this._onPeerJoined(e.detail));
+        Events.on('peer-closed', e => this._onPeerLeft(e.detail));
         Events.on('peer-left', e => this._onPeerLeft(e.detail));
-        Events.on('peers', e => this._onPeers(e.detail));
         Events.on('file-progress', e => this._onFileProgress(e.detail));
         Events.on('paste', e => this._onPaste(e));
     }
@@ -28,12 +28,7 @@ class PeersUI {
         if ($(peer.id)) return; // peer already exists
         const peerUI = new PeerUI(peer);
         $$('x-peers').appendChild(peerUI.$el);
-        setTimeout(e => window.animateBackground(false), 1750); // Stop animation
-    }
-
-    _onPeers(peers) {
-        this._clearPeers();
-        peers.forEach(peer => this._onPeerJoined(peer));
+        //setTimeout(e => window.animateBackground(false), 1750); // Stop animation
     }
 
     _onPeerLeft(peerId) {

@@ -40,7 +40,7 @@ app.get('*', (req, res) => {
             res.sendFile(file);
             return;
         }
-        if (req.url.lastIndexOf('/') > 0) { //如果字符串中包含了两个或以上的斜杆
+        if (/^\/[^\/]*\//.test(req.url)) { //如果字符串中包含了两个或以上的斜杆
             req.url = req.url.match(/^\/[^\/]*/)[0]; //截取第一个二个斜杠之间的字符串
             res.redirect(req.url);
         } else {
@@ -50,7 +50,7 @@ app.get('*', (req, res) => {
 });
 
 const server = http.createServer(app);
-(!publicRun == "public") ? server.listen(port) : server.listen(port, '0.0.0.0');
+(!publicRun == "public") ? server.listen(port): server.listen(port, '0.0.0.0');
 console.log(new Date().toISOString(), ' Snapdrop is running on port', port);
 
 const parser = require('ua-parser-js');
@@ -59,7 +59,7 @@ class SnapdropServer {
 
     constructor() {
         const WebSocket = require('ws');
-        this._wss = new WebSocket.Server({ server });
+        this._wss = new WebSocket.Server({server});
         this._wss.on('connection', (socket, request) => this._onConnection(new Peer(socket, request)));
         this._wss.on('headers', (headers, response) => this._onHeaders(headers, response));
         this._rooms = {};
@@ -85,7 +85,7 @@ class SnapdropServer {
     _onHeaders(headers, response) {
         if (response.headers.cookie && response.headers.cookie.indexOf('peerid=') > -1) return;
         response.peerId = Peer.uuid();
-        headers.push('Set-Cookie: peerid=' + response.peerId + "; SameSite=Strict; Secure");
+        headers.push('Set-Cookie: peerid=' + response.peerId + "; SameSite=Strict; Max-Age=3600; Secure");
     }
 
     _onMessage(sender, message) {
@@ -121,27 +121,31 @@ class SnapdropServer {
         // if room doesn't exist, create it
         if (!this._rooms[peer.ip]) {
             this._rooms[peer.ip] = {};
-        }
+        } else {
+            // notify all other peers
+            for (const otherPeerId in this._rooms[peer.ip]) {
+                const otherPeer = this._rooms[peer.ip][otherPeerId];
+                if (otherPeer != peer.id) {
+                    this._send(otherPeer, {
+                        type: 'peer-joined',
+                        peer: peer.getInfo()
+                    })
+                }
+            }
 
-        // notify all other peers
-        for (const otherPeerId in this._rooms[peer.ip]) {
-            const otherPeer = this._rooms[peer.ip][otherPeerId];
-            this._send(otherPeer, {
-                type: 'peer-joined',
-                peer: peer.getInfo()
+            // notify peer about the other peers
+            const otherPeers = [];
+            for (const otherPeerId in this._rooms[peer.ip]) {
+                if (otherPeerId != peer.id) {
+                    otherPeers.push(this._rooms[peer.ip][otherPeerId].getInfo())
+                }
+            }
+
+            this._send(peer, {
+                type: 'peers',
+                peers: otherPeers
             });
         }
-
-        // notify peer about the other peers
-        const otherPeers = [];
-        for (const otherPeerId in this._rooms[peer.ip]) {
-            otherPeers.push(this._rooms[peer.ip][otherPeerId].getInfo());
-        }
-
-        this._send(peer, {
-            type: 'peers',
-            peers: otherPeers
-        });
 
         // add peer to room
         this._rooms[peer.ip][peer.id] = peer;
@@ -162,7 +166,10 @@ class SnapdropServer {
             // notify all other peers
             for (const otherPeerId in this._rooms[peer.ip]) {
                 const otherPeer = this._rooms[peer.ip][otherPeerId];
-                this._send(otherPeer, { type: 'peer-left', peerId: peer.id });
+                this._send(otherPeer, {
+                    type: 'peer-left',
+                    peerId: peer.id
+                });
             }
         }
     }
@@ -185,7 +192,7 @@ class SnapdropServer {
             return;
         }
 
-        this._send(peer, { type: 'ping' });
+        this._send(peer, {type: 'ping'});
 
         peer.timerId = setTimeout(() => this._keepAlive(peer), timeout);
     }
@@ -241,7 +248,7 @@ class Peer {
         if (request.peerId) {
             this.id = request.peerId;
         } else {
-            this.id = request.headers.cookie.replace('peerid=', '');
+            this.id = request.headers.cookie.match(/peerid=([0-9a-zA-Z]{8}-[0-9a-zA-Z]{4}-4[0-9a-zA-Z]{3}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{12})/)[1];
         }
     }
 
@@ -257,7 +264,7 @@ class Peer {
         if (ua.os && ua.os.name) {
             deviceName = ua.os.name.replace('Mac OS', 'Mac') + ' ';
         }
-       
+
         if (ua.browser.name) {
             deviceName += ua.browser.name;
         }
