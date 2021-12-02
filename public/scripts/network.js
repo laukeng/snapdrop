@@ -376,7 +376,7 @@ class PeersManager {
     }
 
     _onMessage(message) {
-        this.peers[message.sender].onServerMessage(message);
+        if (this.peers[message.sender]) this.peers[message.sender].onServerMessage(message);
     }
 
     _onPeerJoined(peer) {
