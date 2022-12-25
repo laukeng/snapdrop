@@ -1,4 +1,4 @@
-# snapdrop
+# qilindrop
 [HomePage](https://www.qilindrop.cn)\
 [DEMO](https://qilindrop.cn/)\
 Modify from [Snapdrop](https://github.com/RobinLinus/Snapdrop) and [Node-Snapdrop](https://github.com/Bellisario/node-snapdrop).
