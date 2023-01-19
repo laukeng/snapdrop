@@ -1,0 +1,10 @@
+version: '3'
+services:
+  qilindrop:
+    image: qilindrop:latest
+    container_name: qilindrop
+    restart: unless-stopped
+    network_mode: host
+    environment: 
+      - TZ=Asia/Shanghai
+    command: public
