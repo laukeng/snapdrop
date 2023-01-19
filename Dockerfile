@@ -28,6 +28,7 @@ RUN cd /home && \
 
 # 编译项目
 RUN cd /home/qilindrop && \
+    chmod +x entrypoint.sh && \
     npm config set registry https://registry.npm.taobao.org && \
     npm install -g pm2 && \
 	npm install
