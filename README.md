@@ -21,7 +21,7 @@ Enter a blank room name to return to LAN mode.
 docker：
 
 ```bash
-docker run -itd --name=qilindrop --net=host --restart=unless-stopped -e PORT=5000 -e OPTIONS=public nn200433/qilindrop:1.0
+docker run -itd --name=qilindrop --net=host --restart=unless-stopped -e PORT=5000 -e OPTIONS=public nn200433/qilindrop:latest
 ```
 
 docker-compose：
