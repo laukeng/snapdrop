@@ -1,7 +1,7 @@
 FROM node:alpine3.17
 
 # 项目地址（国内加速）
-ARG gitUrl="https://ghproxy.com/https://github.com/nn200433/qilindrop.git"
+ARG gitUrl="https://ghproxy.com/https://github.com/nn200433/snapdrop.git"
 
 # 定义环境变量
 ENV TZ=Asia/Shanghai
