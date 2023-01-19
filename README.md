@@ -18,13 +18,13 @@ Enter a blank room name to return to LAN mode.
 
 ## How to use Docker
 
-docker£º
+dockerï¼š
 
 ```bash
 docker run -itd --name=snapdrop --net=host --restart=unless-stopped -e PORT=5000 -e OPTIONS=public nn200433/snapdrop:latest
 ```
 
-docker-compose£º
+docker-composeï¼š
 
 ```yml
 version: '3'
@@ -35,9 +35,9 @@ services:
     restart: unless-stopped
     network_mode: host
     environment: 
-	  # Ä¬ÈÏ3000
+	  # é»˜è®¤3000
 	  - PORT=5000
       - TZ=Asia/Shanghai
-	  # Ä¬ÈÏÄÚÍø
+	  # é»˜è®¤å†…ç½‘
       - OPTIONS=public
 ```
