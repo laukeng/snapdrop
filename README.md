@@ -15,3 +15,29 @@ Make sure to check your ip address using your OS command.
 By default, it is used inside the LAN.\
 Users who are not in the same LAN can establish a connection by entering the same room name.\
 Enter a blank room name to return to LAN mode.
+
+## How to use Docker
+
+docker：
+
+```bash
+docker run -itd --name=qilindrop --net=host --restart=unless-stopped -e PORT=5000 -e OPTIONS=public nn200433/qilindrop:1.0
+```
+
+docker-compose：
+
+```yml
+version: '3'
+services:
+  qilindrop:
+    image: nn200433/qilindrop:latest
+    container_name: qilindrop
+    restart: unless-stopped
+    network_mode: host
+    environment: 
+	  # 默认3000
+	  - PORT=5000
+      - TZ=Asia/Shanghai
+	  # 默认内网
+      - OPTIONS=public
+```
