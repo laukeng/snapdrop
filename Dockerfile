@@ -25,18 +25,18 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositorie
 # 下载项目
 RUN cd /home && \
     git clone --depth=1 "${gitUrl}" && \
-	cd qilindrop && chmod +x entrypoint.sh
+	cd snapdrop && chmod +x entrypoint.sh
 
 # 编译项目
-RUN cd /home/qilindrop && \
+RUN cd /home/snapdrop && \
     npm config set registry https://registry.npm.taobao.org && \
     # npm install -g pm2 && \
 	npm install
 
 # 指定默认工作目录
-WORKDIR /home/qilindrop
+WORKDIR /home/snapdrop
 
 # 默认3000端口
 EXPOSE 3000/tcp
 
-ENTRYPOINT ["/home/qilindrop/entrypoint.sh"]
+ENTRYPOINT ["/home/snapdrop/entrypoint.sh"]
