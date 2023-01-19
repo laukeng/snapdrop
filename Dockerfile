@@ -1,12 +1,12 @@
 FROM node:alpine3.17
 
 # 项目地址（国内加速）
-ARG gitUrl="https://ghproxy.com/https://github.com/linzxcw/qilindrop.git"
+ARG gitUrl="https://ghproxy.com/https://github.com/nn200433/qilindrop.git"
 
 # 定义环境变量
 ENV TZ=Asia/Shanghai
 ENV PORT=3000
-ENV CONFIG=
+ENV OPTIONS=
 
 # 安装一些常用组件
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \ 
@@ -24,13 +24,13 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositorie
 
 # 下载项目
 RUN cd /home && \
-    git clone --depth=1 "${gitUrl}"
+    git clone --depth=1 "${gitUrl}" && \
+	cd qilindrop && chmod +x entrypoint.sh
 
 # 编译项目
 RUN cd /home/qilindrop && \
-    chmod +x /home/qilindrop/entrypoint.sh && \
     npm config set registry https://registry.npm.taobao.org && \
-    npm install -g pm2 && \
+    # npm install -g pm2 && \
 	npm install
 
 # 指定默认工作目录
