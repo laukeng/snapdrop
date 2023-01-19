@@ -5,6 +5,8 @@ ARG gitUrl="https://ghproxy.com/https://github.com/linzxcw/qilindrop.git"
 
 # 定义环境变量
 ENV TZ=Asia/Shanghai
+ENV PORT=3000
+ENV CONFIG=
 
 # 安装一些常用组件
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \ 
@@ -14,7 +16,6 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositorie
 	curl \
 	git \
 	openssh \
-	su-exec \
 	tzdata && \
 	cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
 	echo ${TZ} > /etc/timezone && \
@@ -27,7 +28,9 @@ RUN cd /home && \
 
 # 编译项目
 RUN cd /home/qilindrop && \
-    npm install --registry=https://registry.npm.taobao.org
+    npm config set registry https://registry.npm.taobao.org && \
+    npm install -g pm2 && \
+	npm install
 
 # 指定默认工作目录
 WORKDIR /home/qilindrop
@@ -35,4 +38,4 @@ WORKDIR /home/qilindrop
 # 默认3000端口
 EXPOSE 3000/tcp
 
-ENTRYPOINT node index.js
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
