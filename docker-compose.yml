@@ -1,0 +1,10 @@
+version: '3'
+services:
+  snapdrop:
+    image: nn200433/snapdrop:1.0
+    container_name: snapdrop
+    restart: unless-stopped
+    network_mode: host
+    environment: 
+      - TZ=Asia/Shanghai
+      - OPTIONS=public
