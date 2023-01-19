@@ -7,4 +7,4 @@ services:
     network_mode: host
     environment: 
       - TZ=Asia/Shanghai
-      - CONFIG=public
+      - OPTIONS=public
