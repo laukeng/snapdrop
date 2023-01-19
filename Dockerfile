@@ -38,4 +38,4 @@ WORKDIR /home/qilindrop
 # 默认3000端口
 EXPOSE 3000/tcp
 
-ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+ENTRYPOINT ["/home/qilindrop/entrypoint.sh"]

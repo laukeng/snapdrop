@@ -4,8 +4,8 @@
 if [ -n "${OPTIONS}" ]; then
     echo "即将启动麒麟传送..."
 	echo "参数：OPTIONS = ${OPTIONS}"
-	pm2 start index.js -- ${OPTIONS}
+	exec pm2 start index.js -- ${OPTIONS}
 else
     echo "即将启动麒麟传送..."
-    pm2 start index.js
+    exec pm2 start index.js
 fi
