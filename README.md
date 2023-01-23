@@ -35,9 +35,9 @@ services:
     restart: unless-stopped
     network_mode: host
     environment: 
-	  # 默认3000
-	  - PORT=5000
+      # 默认3000
+      - PORT=5000
       - TZ=Asia/Shanghai
-	  # 默认内网
+      # 默认内网
       - OPTIONS=public
 ```
