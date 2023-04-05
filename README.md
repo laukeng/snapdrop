@@ -1,6 +1,6 @@
-# snapdrop
-[HomePage](https://www.fairysoft.net/post/66.html)\
-[DEMO](https://snapdrop.fairysoft.net/)\
+# qlindrop
+[HomePage](https://www.qilindrop.cn)\
+[DEMO](https://qilindrop.cn/)\
 Modify from [Snapdrop](https://github.com/RobinLinus/Snapdrop) and [Node-Snapdrop](https://github.com/Bellisario/node-snapdrop).
 Just Added Internet support and fixed the bug with Firefox receiving files.
 
