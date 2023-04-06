@@ -40,7 +40,6 @@ class ServerConnection {
                 break;
             case 'ping':
                 this.send({ type: 'pong' });
-                Events.fire('refresh', msg);
                 break;
             case 'display-name':
                 Events.fire('display-name', msg);
@@ -58,8 +57,8 @@ class ServerConnection {
     _endpoint() {
         // hack to detect if deployment or development environment
         const protocol = location.protocol.startsWith('https') ? 'wss' : 'ws';
-        const nortc = window.isRtcSupported ? '' : '/nortc';
-        const url = protocol + '://' + location.host + location.pathname + nortc;
+        const webrtc = window.isRtcSupported ? '/webrtc' : '/fallback';
+        const url = protocol + '://' + location.host + location.pathname + 'server' + webrtc;
         return url;
     }
 
@@ -71,7 +70,7 @@ class ServerConnection {
 
     _onDisconnect() {
         console.log('WS: server disconnected');
-        Events.fire('notify-user', '连接已中断，5秒之后重试连接...');
+        Events.fire('notify-user', 'Connection lost. Retry in 5 seconds...');
         clearTimeout(this._reconnectTimer);
         this._reconnectTimer = setTimeout(_ => this._connect(), 5000);
     }
@@ -92,10 +91,9 @@ class ServerConnection {
 
 class Peer {
 
-    constructor(serverConnection, peerId, peer) {
+    constructor(serverConnection, peerId) {
         this._server = serverConnection;
         this._peerId = peerId;
-        this._peer = peer;
         this._filesQueue = [];
         this._busy = false;
     }
@@ -188,7 +186,7 @@ class Peer {
     }
 
     _onChunkReceived(chunk) {
-        if(!(chunk.byteLength || chunk.size)) return;
+        if(!chunk.byteLength) return;
         
         this._digester.unchunk(chunk);
         const progress = this._digester.progress;
@@ -214,7 +212,7 @@ class Peer {
         this._reader = null;
         this._busy = false;
         this._dequeueFile();
-        Events.fire('notify-user', '文件发送成功！');
+        Events.fire('notify-user', 'File transfer completed.');
     }
 
     sendText(text) {
@@ -230,14 +228,15 @@ class Peer {
 
 class RTCPeer extends Peer {
 
-    constructor(serverConnection, peerId, peer) {
-        super(serverConnection, peerId, peer);
-        if (!peerId) return; //对方有ID就主动联系对方，没有ID就等待对方联系自己
+    constructor(serverConnection, peerId) {
+        super(serverConnection, peerId);
+        if (!peerId) return; // we will listen for a caller
         this._connect(peerId, true);
     }
 
     _connect(peerId, isCaller) {
         if (!this._conn) this._openConnection(peerId, isCaller);
+
         if (isCaller) {
             this._openChannel();
         } else {
@@ -278,6 +277,7 @@ class RTCPeer extends Peer {
 
     onServerMessage(message) {
         if (!this._conn) this._connect(message.sender, false);
+
         if (message.sdp) {
             this._conn.setRemoteDescription(new RTCSessionDescription(message.sdp))
                 .then( _ => {
@@ -294,7 +294,6 @@ class RTCPeer extends Peer {
 
     _onChannelOpened(event) {
         console.log('RTC: channel opened with', this._peerId);
-        Events.fire('peer-opened', this._peer);
         const channel = event.channel || event.target;
         channel.onmessage = e => this._onMessage(e.data);
         channel.onclose = e => this._onChannelClosed();
@@ -302,8 +301,7 @@ class RTCPeer extends Peer {
     }
 
     _onChannelClosed() {
-        console.log('RTC: channel closed with', this._peerId);
-        //Events.fire('peer-closed', this._peerId);
+        console.log('RTC: channel closed', this._peerId);
         if (!this.isCaller) return;
         this._connect(this._peerId, true); // reopen the channel
     }
@@ -368,35 +366,34 @@ class PeersManager {
         this._server = serverConnection;
         Events.on('signal', e => this._onMessage(e.detail));
         Events.on('peers', e => this._onPeers(e.detail));
-        Events.on('peer-joined', e => this._onPeerJoined(e.detail));
-        Events.on('refresh', e => this._onRefresh(e.detail));
         Events.on('files-selected', e => this._onFilesSelected(e.detail));
         Events.on('send-text', e => this._onSendText(e.detail));
         Events.on('peer-left', e => this._onPeerLeft(e.detail));
     }
 
     _onMessage(message) {
-        if (this.peers[message.sender]) this.peers[message.sender].onServerMessage(message);
-    }
-
-    _onPeerJoined(peer) {
-        if (window.isRtcSupported && peer.rtcSupported) {
-            this.peers[peer.id] = new RTCPeer(this._server, null, peer);
+        if (!this.peers[message.sender]) {
+            this.peers[message.sender] = new RTCPeer(this._server);
         }
+        this.peers[message.sender].onServerMessage(message);
     }
 
     _onPeers(peers) {
         peers.forEach(peer => {
-            if (window.isRtcSupported && peer.rtcSupported) {
-                this.peers[peer.id] = new RTCPeer(this._server, peer.id, peer);
+            if (this.peers[peer.id]) {
+                this.peers[peer.id].refresh();
+                return;
             }
-        });
+            if (window.isRtcSupported && peer.rtcSupported) {
+                this.peers[peer.id] = new RTCPeer(this._server, peer.id);
+            } else {
+                this.peers[peer.id] = new WSPeer(this._server, peer.id);
+            }
+        })
     }
 
-    _onRefresh() {
-        Object.values(this.peers).forEach(peer => {
-            peer.refresh();
-        });
+    sendTo(peerId, message) {
+        this.peers[peerId].send(message);
     }
 
     _onFilesSelected(message) {
@@ -410,8 +407,17 @@ class PeersManager {
     _onPeerLeft(peerId) {
         const peer = this.peers[peerId];
         delete this.peers[peerId];
+        if (!peer || !peer._peer) return;
+        peer._peer.close();
     }
 
+}
+
+class WSPeer {
+    _send(message) {
+        message.to = this._peerId;
+        this._server.send(message);
+    }
 }
 
 class FileChunker {
@@ -483,7 +489,7 @@ class FileDigester {
         this._bytesReceived += chunk.byteLength || chunk.size;
         const totalChunks = this._buffer.length;
         this.progress = this._bytesReceived / this._size;
-        if (isNaN(this.progress)) this.progress = 1;
+        if (isNaN(this.progress)) this.progress = 1
 
         if (this._bytesReceived < this._size) return;
         // we are done
@@ -506,19 +512,12 @@ class Events {
     static on(type, callback) {
         return window.addEventListener(type, callback, false);
     }
-    static off(type, callback) {
-        return window.removeEventListener(type, callback, false);
-    }   
 }
 
 
 RTCPeer.config = {
     'sdpSemantics': 'unified-plan',
-    'iceServers': [
-        {urls: 'stun:stun.l.google.com:19302'},
-        {urls:'stun:stun.ekiga.net'},
-        //{urls:'stun:stunserver.org'},
-        //{urls:'stun:stun.voipstunt.com'},
-        //{urls:'stun:stun.xten.com'}
-    ]
+    'iceServers': [{
+        urls: 'stun:stun.l.google.com:19302'
+    }]
 }

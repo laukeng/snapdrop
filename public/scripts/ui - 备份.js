@@ -541,7 +541,7 @@ class WebShareTargetUI {
 }
 
 
-class Snapdrop {
+class qilindrop {
     constructor() {
         const server = new ServerConnection();
         const peers = new PeersManager(server);
@@ -559,7 +559,7 @@ class Snapdrop {
     }
 }
 
-const snapdrop = new Snapdrop();
+const qilindrop = new qilindrop();
 
 
 if ('serviceWorker' in navigator) {
