@@ -20,29 +20,20 @@ Math.seededRandom = function (max, min) {
 
 function getName(seed) {
     var familyNames = new Array(
-        '赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈',
-        '丁', '贾', '蒋', '沈', '韩', '杨', '朱', '秦', '宋', '许',
-        '何', '吕', '施', '张', '孔', '曹', '严', '华', '金', '魏',
-        '陶', '姜', '戴', '谢', '邹', '庞', '董', '梁', '窦', '章',
-        '祝', '苏', '潘', '葛', '项', '范', '彭', '屈', '鲁', '韦',
-        '林', '马', '苗', '舒', '花', '方', '钟', '任', '袁', '柳',
-        '纪', '鲍', '史', '唐', '成', '邓', '曾', '薛', '雷', '贺',
-        '倪', '汤', '滕', '殷', '罗', '叶', '郝', '毛', '杜', '常',
-        '姚', '于', '汪', '傅', '邵', '尹', '徐', '蔡', '伍', '余',
-        '崔', '郭', '顾', '孟', '刘', '黄', '熊', '穆', '萧', ''
+        '勇敢的', '聪明的', '好动的', '好学的', '敏捷的', '开心的', '可爱的', '睿智的', '强大的', '冷静的', '幸运的', '优雅的', '幽默的'
     );
     var midNames = new Array(
-        '大', '二', '三', '四', '五', '六', '七', ''
+        '色', '的'
     );
     var givenNames = new Array(
-        '爷', '郎', '娘', '哥', '姐', '娃', '妹', ''
+        '钢铁侠', '雷神', '绿巨人', '鹰眼', '黑寡妇', '蜘蛛侠', '蝙蝠侠', '神奇博士', '蚁人', '星爵', '美国队长', '惊奇队长', '佩奇', '威廉', '麒麟'
     );
     Math.seed = seed.hashCode();
-    var familyName = familyNames[Math.seededRandom(100, 0)];
-    var midName = midNames[Math.seededRandom(8, 0)];
-    var givenName = givenNames[Math.seededRandom(8, 0)];
-    var fullName = familyName + midName + givenName;
-    if (fullName && fullName.length < 2) fullName = '武大郎';
+    var familyName = familyNames[Math.seededRandom(14, 0)];
+    var midName = midNames[Math.seededRandom(2, 0)];
+    var givenName = givenNames[Math.seededRandom(15, 0)];
+    var fullName = familyName + givenName;
+    if (fullName && fullName.length < 2) fullName = '幸福的威廉与佩奇';
 
     return fullName;
 }
