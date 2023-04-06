@@ -14,9 +14,10 @@ Make sure to check your ip address using your OS command.
 ## How to use
 By default, it is used inside the LAN.\
 Users who are not in the same LAN can establish a connection by entering the same room name.\
-Enter a blank room name to return to LAN mode.
+Enter a blank room name to return to LAN mode.\
 
-中文安装步骤：
+\
+## 中文安装步骤：\
 1、命令行运行git clone https://github.com/linzxcw/qilindrop.git ,或者在首页的code按钮，下载压缩包解压。\
 2、安装nodejs框架，百度有详细教程，此处略过。\
 3、进入qilindrop文件夹\
