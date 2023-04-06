@@ -17,13 +17,13 @@ Users who are not in the same LAN can establish a connection by entering the sam
 Enter a blank room name to return to LAN mode.
 
 中文安装步骤：
-1、命令行运行git clone https://github.com/linzxcw/qilindrop.git ,或者在首页的code按钮，下载压缩包解压。
-2、安装nodejs框架，百度有详细教程，此处略过。
-3、进入qilindrop文件夹
-      `cd qilindrop`
-4、npm安装模块
-      `npm i`
-5、运行js文件
-      `node index.js`
-6、没有报错的话，打开本机ip地址的3000端口，例如：192.168.1.6:3000
+1、命令行运行git clone https://github.com/linzxcw/qilindrop.git ,或者在首页的code按钮，下载压缩包解压。\
+2、安装nodejs框架，百度有详细教程，此处略过。\
+3、进入qilindrop文件夹\
+      `cd qilindrop`\
+4、npm安装模块\
+      `npm i`\
+5、运行js文件\
+      `node index.js`\
+6、没有报错的话，打开本机ip地址的3000端口，例如：192.168.1.6:3000\
 7、连接同一内网，使用其他设备打开上述网址，如果能相互发现即安装成功。
