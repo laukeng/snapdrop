@@ -1,18 +1,18 @@
 {
-  "name": "snapdrop",
+  "name": "qilindrop",
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-	"start": "node index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "ua-parser-js": "^0.7.21",
+    "express": "^4.18.2",
+    "ua-parser-js": "^0.7.24",
     "unique-names-generator": "^4.3.0",
-    "ws": "^7.3.1"
+    "ws": "^7.4.6"
   }
 }

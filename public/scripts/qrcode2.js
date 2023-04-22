@@ -144,7 +144,7 @@ var QRCode;
 	var ratio=QRMath.glog(this.get(0))-QRMath.glog(e.get(0));var num=new Array(this.getLength());for(var i=0;i<this.getLength();i++){num[i]=this.get(i);}
 	for(var i=0;i<e.getLength();i++){num[i]^=QRMath.gexp(QRMath.glog(e.get(i))+ratio);}
 	return new QRPolynomial(num,0).mod(e);}};function QRRSBlock(totalCount,dataCount){this.totalCount=totalCount;this.dataCount=dataCount;}
-	QRRSBlock.RS_BLOCK_TABLE=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]];QRRSBlock.getRSBlocks=function(typeNumber,errorCorrectLevel){var rsBlock=QRRSBlock.getRsBlockTable(typeNumber,errorCorrectLevel);if(rsBlock==undefined){throw new Error("bad rs block @ typeNumber:"+typeNumber+"/errorCorrectLevel:"+errorCorrectLevel);}
+	QRRSBlock.RS_BLOCK_TABLE=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]];QRRSBlock.getRSBlocks=function(typeNumber,errorCorrectLevel){var rsBlock=QRRSBlock.getRsBlockTable(typeNumber,errorCorrectLevel);if(rsBlock==undefined){throw new Error("bad rs block @ typeNumber:"+typeNumber+"/errorCorrectLevel:"+errorCorrectLevel);}
 	var length=rsBlock.length/3;var list=[];for(var i=0;i<length;i++){var count=rsBlock[i*3+0];var totalCount=rsBlock[i*3+1];var dataCount=rsBlock[i*3+2];for(var j=0;j<count;j++){list.push(new QRRSBlock(totalCount,dataCount));}}
 	return list;};QRRSBlock.getRsBlockTable=function(typeNumber,errorCorrectLevel){switch(errorCorrectLevel){case QRErrorCorrectLevel.L:return QRRSBlock.RS_BLOCK_TABLE[(typeNumber-1)*4+0];case QRErrorCorrectLevel.M:return QRRSBlock.RS_BLOCK_TABLE[(typeNumber-1)*4+1];case QRErrorCorrectLevel.Q:return QRRSBlock.RS_BLOCK_TABLE[(typeNumber-1)*4+2];case QRErrorCorrectLevel.H:return QRRSBlock.RS_BLOCK_TABLE[(typeNumber-1)*4+3];default:return undefined;}};function QRBitBuffer(){this.buffer=[];this.length=0;}
 	QRBitBuffer.prototype={get:function(index){var bufIndex=Math.floor(index/8);return((this.buffer[bufIndex]>>>(7-index%8))&1)==1;},put:function(num,length){for(var i=0;i<length;i++){this.putBit(((num>>>(length-i-1))&1)==1);}},getLengthInBits:function(){return this.length;},putBit:function(bit){var bufIndex=Math.floor(this.length/8);if(this.buffer.length<=bufIndex){this.buffer.push(0);}
@@ -157,18 +157,25 @@ var QRCode;
 	
 	// android 2.x doesn't support Data-URI spec
 	function _getAndroid() {
+		/*
 		var android = false;
 		var sAgent = navigator.userAgent;
 		
 		if (/android/i.test(sAgent)) { // android
 			android = true;
-			var aMat = sAgent.toString().match(/android ([0-9]+\.?[0-9]?)/i);
+			var aMat = sAgent.toString().match(/android ([0-9]\.[0-9])/i);
 			
 			if (aMat && aMat[1]) {
 				android = parseFloat(aMat[1]);
 			}
 		}
 		return android;
+		
+		由于android 2.x的旧机子已经根本不用考虑了，
+		而这个方法在makeImage的时候被调用，并不是用来判断是否是android机子，
+		只是用来判断是需要考虑android老设备不支持Data-URI的问题，所以这里直接置false，不考虑即可
+		*/
+		return false;
 	}
 	
 	var svgDrawer = (function() {
@@ -275,7 +282,8 @@ var QRCode;
 		function _onMakeImage() {
 			this._elImage.src = this._elCanvas.toDataURL("image/png");
 			this._elImage.style.display = "block";
-			this._elCanvas.style.display = "none";			
+			//如果没有中心icon的话，二维码display会被设为none
+			//this._elCanvas.style.display = "none";			
 		}
 		
 		// Android 2.1 bug workaround
@@ -354,8 +362,8 @@ var QRCode;
 		
 			this._htOption = htOption;
 			this._elCanvas = document.createElement("canvas");
-			this._elCanvas.width = htOption.width;
-			this._elCanvas.height = htOption.height;
+			this._elCanvas.width = htOption.curtainWidth ? htOption.curtainWidth : htOption.width;
+			this._elCanvas.height = htOption.curtainHeight ? htOption.curtainHeight : htOption.height;
 			el.appendChild(this._elCanvas);
 			this._el = el;
 			this._oContext = this._elCanvas.getContext("2d");
@@ -363,7 +371,7 @@ var QRCode;
 			this._elImage = document.createElement("img");
 			this._elImage.alt = "Scan me!";
 			this._elImage.style.display = "none";
-			this._el.appendChild(this._elImage);
+			//this._el.appendChild(this._elImage);
 			this._bSupportDataURI = null;
 		};
 			
@@ -373,6 +381,7 @@ var QRCode;
 		 * @param {QRCode} oQRCode 
 		 */
 		Drawing.prototype.draw = function (oQRCode) {
+			//目前真正被调用的是该draw方法
             var _elImage = this._elImage;
             var _oContext = this._oContext;
             var _htOption = this._htOption;
@@ -415,7 +424,55 @@ var QRCode;
 			
 			this._bIsPainted = true;
 		};
+    
+		function drawRoundRect(ctx, x, y, width, height, radius, lineWidth, lineColor) {
+			ctx.lineWidth = lineWidth;
+			ctx.strokeStyle = lineColor;
+			ctx.beginPath(); 
+			ctx.arc(x + radius, y + radius, radius, Math.PI, Math.PI * 3 / 2); 
+			ctx.lineTo(width - radius + x, y);
+			ctx.arc(width - radius + x, radius + y, radius, Math.PI * 3 / 2, Math.PI * 2);
+			ctx.lineTo(width + x, height + y - radius); 
+			ctx.arc(width - radius + x, height - radius + y, radius, 0, Math.PI * 1 / 2); 
+			ctx.lineTo(radius + x, height +y); 
+			ctx.arc(radius + x, height - radius + y, radius, Math.PI * 1 / 2, Math.PI); 
+			ctx.closePath();
+			//因为有的时候图片不需要设置边框线
+			if(lineWidth > 0) ctx.stroke();
+		};
+		
+		Drawing.prototype.addIcon = async function (iconSrc) {
+			//通过ES6的async/await语法将异步的Promise转为同步方法
+			const image = await new Promise((resolve, reject) => {
+				const image = new Image();
+				image.src = iconSrc;
+				image.onload=()=>{resolve(image);};
+			});
 			
+			//图片占整个二维码的比例，在QRCode.CorrectLevel.L测试可行，那么更高的纠错率就更没问题了
+			const ratio = 0.3;
+			const radius = 10;
+			const marginRatio = (1-ratio)/2;
+			const x = this._htOption.width * marginRatio;
+			const y = this._htOption.height * marginRatio;
+			const width = this._htOption.width * ratio;
+			const height = this._htOption.height * ratio;
+			drawRoundRect(this._oContext, x, y, width, height, this._htOption.iconRadius, this._htOption.iconBorderWidth, this._htOption.iconBorderColor);
+			this._oContext.save();
+			this._oContext.clip();
+			this._oContext.drawImage(image, x, y, width, height);
+			this._oContext.restore();
+		};
+		
+		Drawing.prototype.addCurtain = async function (curtainSrc) {
+			const image = await new Promise((resolve, reject) => {
+				const image = new Image();
+				image.src = curtainSrc;
+				image.onload=()=>{resolve(image);};
+			});
+			this._oContext.drawImage(image, 0, 0, this._htOption.curtainWidth, this._htOption.curtainHeight);
+		}			
+		
 		/**
 		 * Make the image from Canvas if the browser supports Data URI.
 		 */
@@ -533,12 +590,26 @@ var QRCode;
 	 */
 	QRCode = function (el, vOption) {
 		this._htOption = {
+			//二维码大小
 			width : 256, 
 			height : 256,
 			typeNumber : 4,
 			colorDark : "#000000",
 			colorLight : "#ffffff",
-			correctLevel : QRErrorCorrectLevel.H
+			correctLevel : QRErrorCorrectLevel.H,
+			//二维码中间图标
+			iconSrc: "favicon-96x96.png",
+			iconBorderWidth: 0,
+			iconBorderColor: "black",
+			//幕布图片
+			curtainImg: undefined,
+			curtainBgColor: undefined,
+			//整个画布大小，边框充满整个画布
+			curtainWidth: undefined,
+			curtainHeight: undefined,
+			//二维码相对画布或边框图片的偏移
+			qrcodeOffsetX: undefined,
+			qrcodeOffsetY: undefined,
 		};
 		
 		if (typeof vOption === 'string') {
@@ -577,12 +648,52 @@ var QRCode;
 	 * 
 	 * @param {String} sText link data
 	 */
-	QRCode.prototype.makeCode = function (sText) {
+	QRCode.prototype.makeCode = async function (sText) {
 		this._oQRCode = new QRCodeModel(_getTypeNumber(sText, this._htOption.correctLevel), this._htOption.correctLevel);
 		this._oQRCode.addData(sText);
 		this._oQRCode.make();
 		this._el.title = sText;
-		this._oDrawing.draw(this._oQRCode);			
+		const offsetExists = typeof(this._htOption.qrcodeOffsetX) !== "undefined" && typeof(this._htOption.qrcodeOffsetY) !== "undefined";
+		const curtainExists = typeof(this._htOption.curtainWidth) !== "undefined" && typeof(this._htOption.curtainHeight) !== "undefined";
+		const curtainImgExists = typeof(this._htOption.curtainImg) !== "undefined";
+		const curtainBgColorExists = typeof this._htOption.curtainBgColor !== "undefined" && curtainExists;
+		
+		if(curtainBgColorExists) {
+			//如果不填充白色，下载下来的图片默认为透明色，很难看
+			this._oDrawing._oContext.fillStyle = this._htOption.curtainBgColor ? this._htOption.curtainBgColor : "white";
+			this._oDrawing._oContext.fillRect(0, 0, this._htOption.curtainWidth, this._htOption.curtainHeight);
+			this._oDrawing._oContext.save();
+		}
+		
+		if(offsetExists) {
+			const x = this._htOption.qrcodeOffsetX;
+			const y = this._htOption.qrcodeOffsetY;
+			this._oDrawing._oContext.save();
+			this._oDrawing._oContext.translate(x, y);
+		}
+		
+		if(curtainBgColorExists) {
+			this._oDrawing._oContext.rect(0,0,this._htOption.width,this._htOption.height);
+			this._oDrawing._oContext.clip();
+		}
+		this._oDrawing.draw(this._oQRCode);
+		
+		if(typeof(this._htOption.iconSrc) !== "undefined") {
+			//这里是异步的函数，只有加了await才会变成同步（注意：即使函数里面有await，这个函数也是异步执行的）
+			await this._oDrawing.addIcon(this._htOption.iconSrc);
+		}
+		
+		if(curtainBgColorExists) {
+			this._oDrawing._oContext.restore();
+		}
+		if(offsetExists) {
+			this._oDrawing._oContext.restore();
+		}
+		if(curtainImgExists) {
+			this._oDrawing._oContext.globalCompositeOperation = "destination-over";
+			await this._oDrawing.addCurtain(this._htOption.curtainImg);
+			this._oDrawing._oContext.globalCompositeOperation = "source-over";
+		}
 		this.makeImage();
 	};
 	
@@ -611,7 +722,3 @@ var QRCode;
 	 */
 	QRCode.CorrectLevel = QRErrorCorrectLevel;
 })();
-
-if (typeof module != "undefined") {
-  module.exports = QRCode;
-}

@@ -729,13 +729,21 @@ x-dialog x-paper {
 
 /* QR code */
 #qrcode {
-    width: 240px;
-    height: 240px;
+    width: 120px;
+    height: 120px;
     margin: 10px auto;
-    padding: 5px;
-    background-color: white;
+    padding: 0px;
+
 }
 
+#qrCodeIco {
+	position: absolute;
+	height: 30px;
+	width: 30px;
+	margin: 55px auto;
+	border-radius: 50%;
+	overflow: idden;
+}	
 /* Styles for users who prefer dark mode at the OS level */
 @media (prefers-color-scheme: dark) {
 
@@ -773,8 +781,8 @@ x-dialog x-paper {
     right: 0px;
     margin: 0px auto;
     padding: 6px;
-    background-color: orange;
-    color: royalblue;
+    background-color: royalblue;
+    color: white;
     font-size: 14px;
     display: none;
 }

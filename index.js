@@ -51,7 +51,7 @@ app.get('*', (req, res) => {
 
 const server = http.createServer(app);
 (!publicRun == "public") ? server.listen(port): server.listen(port, '0.0.0.0');
-console.log(new Date().toISOString(), ' Snapdrop is running on port', port);
+console.log(new Date().toISOString(), ' qilindrop is running on port', port);
 
 const parser = require('ua-parser-js');
 
@@ -248,7 +248,7 @@ class Peer {
         if (request.peerId) {
             this.id = request.peerId;
         } else {
-            this.id = request.headers.cookie.match(/peerid=([0-9a-zA-Z]{8}-[0-9a-zA-Z]{4}-4[0-9a-zA-Z]{3}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{12})/)[1];
+            this.id = request.headers.cookie.replace('peerid=', '');
         }
     }
 
